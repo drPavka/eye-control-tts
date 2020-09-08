@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+    production: false,
+    //@todo  - Bad idea to show it
+    apiKeyObj: {
+        'X-Goog-Api-Key': 'AIzaSyBUrG7YyqBHH-TcgwACamVt3mlNU2u5dR4'
+    },
+    synthesize: 'https://texttospeech.googleapis.com/v1/text:synthesize'
 };
 
 /*

@@ -1,14 +1,8 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import '~@angular/material/theming';
 
-$custom-theme-primary: mat-palette($mat-light-blue);
-$custom-theme-accent: mat-palette($mat-orange, A200, A100, A400);
-$custom-theme-warn: mat-palette($mat-red);
 
-$custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent, $custom-theme-warn);
-@include angular-material-theme($custom-theme);
-$background: map-get($custom-theme, background);
 
-$background: white;
 
 $card-width: 400px;
 $card-min-height: 500px;
@@ -59,7 +53,7 @@ body {
 .card {
   min-height: 100vh;
   width: 100%;
-  background: white; //mat-color($background, background);
+  background: white;//mat-color($background, background);
   @include gt-xs {
     width: $card-width;
     min-height: $card-min-height;
@@ -81,3 +75,6 @@ body {
   }
 }
 
+.mat-form-field {
+  width: 100%;
+}
