@@ -1,4 +1,83 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+$custom-theme-primary: mat-palette($mat-light-blue);
+$custom-theme-accent: mat-palette($mat-orange, A200, A100, A400);
+$custom-theme-warn: mat-palette($mat-red);
+
+$custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent, $custom-theme-warn);
+@include angular-material-theme($custom-theme);
+$background: map-get($custom-theme, background);
+
+$background: white;
+
+$card-width: 400px;
+$card-min-height: 500px;
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+@mixin gt-xs {
+  @media (min-width: 480px) {
+    @content;
+  }
+}
+
+@mixin landscape {
+  @media (orientation: landscape) and (max-height: 479px) {
+    @content;
+  }
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: silver;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  @include gt-xs {
+    min-height: 100%;
+    height: auto;
+  }
+  @include landscape {
+    justify-content: start;
+  }
+
+}
+
+.card {
+  min-height: 100vh;
+  width: 100%;
+  background: white; //mat-color($background, background);
+  @include gt-xs {
+    width: $card-width;
+    min-height: $card-min-height;
+    @include mat-elevation(2);
+  }
+  @include landscape {
+    margin: 12px;
+  }
+}
+
+.mat-toolbar {
+  position: fixed;
+  @include mat-elevation(1);
+  @include landscape {
+    position: relative;
+  }
+  @include gt-xs {
+    position: relative;
+  }
+}
+
