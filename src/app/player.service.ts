@@ -4,6 +4,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {filter, map, pluck, shareReplay, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
+
 export interface Voice {
     languageCodes: string[],
     name: string,
@@ -29,18 +30,20 @@ export class PlayerService {
     );
 
     public voice$$: BehaviorSubject<Voice | null> = new BehaviorSubject<Voice | null>(null);
+    public speakingRate$$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
+
+    private _voices$: Observable<Voice[]> | null = null;
     private _voice$: Observable<VoiceOut> = this.voice$$.asObservable().pipe(
         filter(_ => !!_),
         map((voice) => {
             const {languageCodes, name, ssmlGender} = voice as Voice;
             const [languageCode] = languageCodes;
 
-            return {languageCode, name, ssmlGender};
+            return {languageCode, name, ssmlGender} as VoiceOut;
         }),
-        tap(console.log.bind(console))
+        // tap(console.log.bind(console))
     );
-
-    private _voices$: Observable<Voice[]> | null = null;
+    private _speakingRate$: Observable<number> = this.speakingRate$$.asObservable().pipe();
 
     constructor(private _http: HttpClient) {
 
@@ -71,11 +74,14 @@ export class PlayerService {
                 'audioEncoding': 'MP3'
             }
         }).pipe(
-            withLatestFrom(this._voice$, this._text$),
-
+            withLatestFrom(this._voice$, this._speakingRate$, this._text$),
             tap(console.log.bind(console)),
-            map(([data, voice, text]) => {
-                return Object.assign({}, data, {voice, input: {text}})
+            map(([data, voice, speakingRate, text]) => {
+                return Object.assign({}, data, {
+                    voice,
+                    input: {text},
+                    audioConfig: {speakingRate, audioEncoding: 'MP3'}
+                })
             }),
             switchMap((body) => {
                 return this._http.post(environment.synthesize, body);

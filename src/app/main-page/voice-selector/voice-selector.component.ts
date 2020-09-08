@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PlayerService, Voice} from '../../player.service';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {FormControl} from '@angular/forms';
 import {tap} from 'rxjs/operators';
 
@@ -9,9 +9,9 @@ import {tap} from 'rxjs/operators';
     templateUrl: './voice-selector.component.html',
     styleUrls: ['./voice-selector.component.scss']
 })
-export class VoiceSelectorComponent implements OnInit {
+export class VoiceSelectorComponent implements OnInit, OnDestroy {
     public selectedVoice: FormControl = new FormControl();
-
+    private _subscription: Subscription = new Subscription();
     public voiceList$: Observable<Voice[]> = this._player.voices$.pipe(
         tap((voices: Voice[]) => {
             this.selectedVoice.setValue(voices[0])
@@ -23,7 +23,11 @@ export class VoiceSelectorComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.selectedVoice.valueChanges.pipe().subscribe(this._player.voice$$)
+        this._subscription.add(this.selectedVoice.valueChanges.pipe().subscribe(this._player.voice$$));
+    }
+
+    ngOnDestroy(): void {
+        this._subscription.unsubscribe();
     }
 
 }

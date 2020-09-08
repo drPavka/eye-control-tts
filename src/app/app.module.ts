@@ -19,6 +19,7 @@ import {GCloudApiInterceptor} from './gcloud-api.interceptor';
 import {VoiceSelectorComponent} from './main-page/voice-selector/voice-selector.component';
 import {MatSelectModule} from '@angular/material/select';
 import {VoiceNamePipe} from './voice-name.pipe';
+import {SpeakingRateComponent} from './main-page/speaking-rate/speaking-rate.component';
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import {VoiceNamePipe} from './voice-name.pipe';
         MainPageComponent,
         PlayerComponent,
         VoiceSelectorComponent,
-        VoiceNamePipe
+        VoiceNamePipe,
+        SpeakingRateComponent
     ],
     imports: [
         BrowserModule,
