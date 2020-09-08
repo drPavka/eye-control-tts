@@ -20,6 +20,7 @@ import {VoiceSelectorComponent} from './main-page/voice-selector/voice-selector.
 import {MatSelectModule} from '@angular/material/select';
 import {VoiceNamePipe} from './voice-name.pipe';
 import {SpeakingRateComponent} from './main-page/speaking-rate/speaking-rate.component';
+import {FlexModule} from '@angular/flex-layout';
 
 @NgModule({
     declarations: [
@@ -44,7 +45,9 @@ import {SpeakingRateComponent} from './main-page/speaking-rate/speaking-rate.com
         MatButtonModule,
         MatIconModule,
         HttpClientModule,
-        MatSelectModule
+        MatSelectModule,
+        FlexModule,
+
 
     ],
     providers: [

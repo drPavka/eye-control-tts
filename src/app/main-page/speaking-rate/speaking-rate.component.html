@@ -1,4 +1,5 @@
 <mat-form-field>
+    <mat-icon inline matPrefix style="margin-right:12px;">speed</mat-icon>
     <mat-select [formControl]="speakingRate">
         <mat-option *ngFor="let rate of speakingRates; index as i" [value]="rate">
             Speed {{i + 1}}

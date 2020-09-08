@@ -1,2 +1,8 @@
-<app-text></app-text>
-<app-player></app-player>
+<div fxFill fxLayout="column">
+    <app-text></app-text>
+    <app-player></app-player>
+    <div fxLayout="column" fxLayout.gt-sm="row wrap" fxLayoutGap="12px">
+        <app-voice-selector fxFlex="calc(60% - 12px)"></app-voice-selector>
+        <app-speaking-rate fxFlex="calc(40% - 12px)"></app-speaking-rate>
+    </div>
+</div>

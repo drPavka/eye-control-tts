@@ -1,5 +1,7 @@
-<mat-toolbar color="accent">
-    <button mat-icon-button (click)="toggle$$.next()"><mat-icon>play_circle_filled</mat-icon></button>
-    <app-voice-selector></app-voice-selector>
-    <app-speaking-rate></app-speaking-rate>
-</mat-toolbar>
+<div fxLayout="row" fxLayoutAlign="center center">
+    <button (click)="toggle$$.next()" mat-fab>
+        <mat-icon>play_circle_filled</mat-icon>
+    </button>
+</div>
+
+

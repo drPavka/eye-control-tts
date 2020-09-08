@@ -1,4 +1,5 @@
 <mat-form-field *ngIf="(voiceList$ | async) as voiceList">
+    <mat-icon inline matPrefix style="margin-right:12px;">record_voice_over</mat-icon>
     <mat-select [formControl]="selectedVoice">
         <mat-option *ngFor="let voice of voiceList" [value]="voice">
             {{voice | voiceName}}
