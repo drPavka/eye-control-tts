@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "ng serve --port 4208",
-    "build": "ng build",
+    "build": "ng build --outputPath=docs --prod --base-href=/eye-control-tts/ --deleteOutputPath",
     "lint": "ng lint"
   },
   "private": true,

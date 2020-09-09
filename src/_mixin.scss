@@ -1,0 +1,11 @@
+@mixin gt-xs {
+  @media (min-width: 480px) {
+    @content;
+  }
+}
+
+@mixin landscape {
+  @media (orientation: landscape) and (max-height: 479px) {
+    @content;
+  }
+}
