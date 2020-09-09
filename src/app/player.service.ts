@@ -23,7 +23,9 @@ interface VoiceOut {
     providedIn: 'root'
 })
 export class PlayerService {
-    private _audio: HTMLAudioElement = new Audio();
+    //@todo Injector for the HTML element should be used
+    private __audio: HTMLAudioElement | null = null;
+
     public text$$: BehaviorSubject<string> = new BehaviorSubject<string>('');
     private _text$: Observable<string> = this.text$$.asObservable().pipe(
         filter(_ => !!_),
@@ -66,6 +68,14 @@ export class PlayerService {
         }
         return this._voices$;
 
+    }
+
+    private get _audio(): HTMLAudioElement {
+        if (!this.__audio) {
+            this.__audio = new Audio();
+        }
+
+        return this.__audio;
     }
 
     play$(): Observable<any> {
