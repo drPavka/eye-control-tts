@@ -7,8 +7,8 @@ import {
     OnInit,
     ViewChild
 } from '@angular/core';
-import {Subject, Subscription} from 'rxjs';
-import {switchMap, tap} from 'rxjs/operators';
+import {Observable, of, Subject, Subscription} from 'rxjs';
+import {switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {PlayerService, PlayerState} from '../../player.service';
 import {MatButton} from '@angular/material/button';
 
@@ -21,7 +21,7 @@ import {MatButton} from '@angular/material/button';
 export class PlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild(MatButton) _button: MatButton | undefined;
 
-    public toggle$$: Subject<void> = new Subject();
+    public click$$: Subject<void> = new Subject();
     public icon: string = 'play_arrow';
     private _subscription: Subscription = new Subscription();
 
@@ -57,12 +57,28 @@ export class PlayerComponent implements OnInit, OnDestroy, AfterViewInit {
                 })
             ).subscribe()
         );
+
     }
 
     ngOnInit(): void {
         this._subscription.add(
-            this.toggle$$.asObservable().pipe(
-                switchMap(this._player.play$.bind(this._player)),
+            this.click$$.asObservable().pipe(
+                withLatestFrom(this._player.state$$),
+                switchMap(([, state]) => {
+                    let result$: Observable<any> = of();
+
+                    switch (state) {
+                        case PlayerState.playing:
+                            this._player.pause();
+                            break;
+                        //@todo paused is not really paused - there are no resume method  - to implement resume - current position should be stored when pausing and seeked when resuming
+                        case PlayerState.paused:
+                        case PlayerState.stopped:
+                            result$ = this._player.play$()
+                            break;
+                    }
+                    return result$;
+                })
                 //tap(console.log.bind(console))
             ).subscribe());
 

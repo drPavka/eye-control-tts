@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, from, Observable, of} from 'rxjs';
+import {BehaviorSubject, from, fromEvent, Observable, of} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {filter, map, pluck, shareReplay, switchMap, tap, withLatestFrom} from 'rxjs/operators';
@@ -84,6 +84,16 @@ export class PlayerService {
     private get _audio(): HTMLAudioElement {
         if (!this.__audio) {
             this.__audio = new Audio();
+            fromEvent(this.__audio, 'ended').pipe(
+                tap(() => {
+                    this.state$$.next(PlayerState.stopped);
+                })
+            ).subscribe()
+            fromEvent(this.__audio, 'pause').pipe(
+                tap(() => {
+                    this.state$$.next(PlayerState.paused);
+                })
+            ).subscribe()
         }
 
         return this.__audio;
