@@ -4,6 +4,12 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {filter, map, pluck, shareReplay, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
+export enum PlayerState {
+    disabled,
+    playing,
+    paused,
+    stopped
+}
 
 export interface Voice {
     languageCodes: string[],
@@ -23,6 +29,11 @@ interface VoiceOut {
     providedIn: 'root'
 })
 export class PlayerService {
+    public state$$: BehaviorSubject<PlayerState> = new BehaviorSubject<PlayerState>(PlayerState.disabled);
+    public state$: Observable<PlayerState> = this.state$$.asObservable().pipe(
+        tap(console.log.bind(console))
+    );
+
     //@todo Injector for the HTML element should be used
     private __audio: HTMLAudioElement | null = null;
 
@@ -85,13 +96,15 @@ export class PlayerService {
             }
         }).pipe(
             withLatestFrom(this._voice$, this._speakingRate$, this._text$),
-            tap(console.log.bind(console)),
             map(([data, voice, speakingRate, text]) => {
                 return Object.assign({}, data, {
                     voice,
                     input: {text},
                     audioConfig: {speakingRate, audioEncoding: 'MP3'}
                 })
+            }),
+            tap(() => {
+                this.state$$.next(PlayerState.playing);
             }),
             switchMap((body) => {
                 return this._http.post(environment.synthesize, body);
@@ -108,5 +121,9 @@ export class PlayerService {
                 return from(this._audio.play());
             })
         );
+    }
+
+    pause() {
+        this._audio.pause();
     }
 }
