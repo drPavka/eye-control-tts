@@ -10,7 +10,8 @@
           "inlineTemplate": false,
           "inlineStyle": false,
           "style": "scss",
-          "skipTests": true
+          "skipTests": true,
+          "changeDetection": "OnPush"
         },
         "@schematics/angular:class": {
           "skipTests": true
@@ -57,7 +58,6 @@
             "styles": [
               "./node_modules/normalize.css/normalize.css",
               "src/reset.css",
-
               "src/styles.scss"
             ],
             "scripts": []

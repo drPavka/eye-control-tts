@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {PlayerService, Voice} from '../../player.service';
 import {Observable, Subscription} from 'rxjs';
 import {FormControl} from '@angular/forms';
@@ -7,7 +7,8 @@ import {tap} from 'rxjs/operators';
 @Component({
     selector: 'app-voice-selector',
     templateUrl: './voice-selector.component.html',
-    styleUrls: ['./voice-selector.component.scss']
+    styleUrls: ['./voice-selector.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VoiceSelectorComponent implements OnInit, OnDestroy {
     public selectedVoice: FormControl = new FormControl();

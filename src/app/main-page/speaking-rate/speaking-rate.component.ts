@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {PlayerService} from '../../player.service';
@@ -7,7 +7,8 @@ import {PlayerService} from '../../player.service';
 @Component({
     selector: 'app-speaking-rate',
     templateUrl: './speaking-rate.component.html',
-    styleUrls: ['./speaking-rate.component.scss']
+    styleUrls: ['./speaking-rate.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpeakingRateComponent implements OnInit, OnDestroy {
     public speakingRate: FormControl = new FormControl(1);
