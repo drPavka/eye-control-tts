@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {ErrorHandler, NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -21,6 +21,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {VoiceNamePipe} from './voice-name.pipe';
 import {SpeakingRateComponent} from './main-page/speaking-rate/speaking-rate.component';
 import {FlexModule} from '@angular/flex-layout';
+import {ErrorsHandler} from './errors-handler';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
     declarations: [
@@ -47,10 +49,14 @@ import {FlexModule} from '@angular/flex-layout';
         HttpClientModule,
         MatSelectModule,
         FlexModule,
-
+        MatSnackBarModule
 
     ],
     providers: [
+        {
+            provide: ErrorHandler,
+            useClass: ErrorsHandler
+        },
         {
             provide: HTTP_INTERCEPTORS,
             multi: true,

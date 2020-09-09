@@ -4,7 +4,7 @@
 @include mat-core();
 $candy-app-primary: mat-palette($mat-light-blue, 600, 500, 900);
 $candy-app-accent: mat-palette($mat-blue);
-$candy-app-warn: mat-palette($mat-red);
+$candy-app-warn: mat-palette($mat-orange);
 $candy-app-theme: mat-light-theme((
         color: (
                 primary: $candy-app-primary,
@@ -25,8 +25,6 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-
-
 
 
 body {
@@ -53,7 +51,7 @@ body {
 .card {
   min-height: 100vh;
   width: 100%;
-  background: white;//mat-color($background, background);
+  background: white; //mat-color($background, background);
   @include gt-xs {
     width: $card-width;
     min-height: $card-min-height;
@@ -77,4 +75,8 @@ body {
 
 .mat-form-field {
   width: 100%;
+}
+
+.snack-error {
+  background-color: mat-color($candy-app-warn, 500);
 }

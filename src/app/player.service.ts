@@ -29,9 +29,16 @@ interface VoiceOut {
     providedIn: 'root'
 })
 export class PlayerService {
+    /**
+     * Current player state switcher
+     * Clients change it emitting new state
+     */
     public state$$: BehaviorSubject<PlayerState> = new BehaviorSubject<PlayerState>(PlayerState.disabled);
+    /**
+     * State observable  - clients observe player's state changes
+     */
     public state$: Observable<PlayerState> = this.state$$.asObservable().pipe(
-        tap(console.log.bind(console))
+
     );
 
     //@todo Injector for the HTML element should be used
@@ -42,10 +49,20 @@ export class PlayerService {
         filter(_ => !!_),
     );
 
+    /**
+     * Current Voice used - set after getting voice data
+     */
     public voice$$: BehaviorSubject<Voice | null> = new BehaviorSubject<Voice | null>(null);
     public speakingRate$$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
-
+    /**
+     * List of available voices
+     * @private
+     */
     private _voices$: Observable<Voice[]> | null = null;
+    /**
+     * Current voice in Google API format
+     * @private
+     */
     private _voice$: Observable<VoiceOut> = this.voice$$.asObservable().pipe(
         filter(_ => !!_),
         map((voice) => {
@@ -81,6 +98,7 @@ export class PlayerService {
 
     }
 
+    //@todo getter seems to be redundant
     private get _audio(): HTMLAudioElement {
         if (!this.__audio) {
             this.__audio = new Audio();
